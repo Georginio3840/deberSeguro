@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "express": "^4.18.2",
     "handlebars": "^4.7.8",
     "jsdom": "^22.1.0",

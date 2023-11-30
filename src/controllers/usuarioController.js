@@ -1,6 +1,15 @@
 import { Usuario } from '../models/Usuario.js';
+import crypto from 'crypto';
 
 
+
+function encryptData(data, secretKey) {
+    const cipher = crypto.createCipher('aes-256-cbc', secretKey);
+    let encryptedData = cipher.update(data, 'utf-8', 'hex');
+    encryptedData += cipher.final('hex');
+    return encryptedData;
+  }
+  
 export const getUsuarios = async (req,res)=>{
     try {
         
@@ -36,6 +45,8 @@ export const createUsuadio = async(req,res)=>{
 
 
 
+    const secretKey = 'miClaveSecreta';
+    
     const
      {
         Nombre,
@@ -44,11 +55,11 @@ export const createUsuadio = async(req,res)=>{
         Direccion
      } = req.body
 
-   
+     const nombreCifrado = encryptData(Nombre, secretKey);
     //Crear estudiante
     try {
         const newUsuario = await Usuario.create({
-            Nombre,
+            Nombre:nombreCifrado,
             Apellido,
             Email,
             Direccion
@@ -64,6 +75,7 @@ export const createUsuadio = async(req,res)=>{
 
 export const updateUsuario = async(req,res)=>{
 
+    
     const {
         Nombre,
         Apellido,
